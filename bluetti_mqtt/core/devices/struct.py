@@ -63,7 +63,8 @@ class Uint32Field(DeviceField):
         super().__init__(name, address, 2)
 
     def parse(self, data: bytes) -> int:
-        return (data[2] << 24 | data[3] << 16 | data[0] << 8 | data[1]) + self.offset
+        lo, hi = struct.unpack('!HH', data)
+        return (lo + (hi << 16)) + self.offset
 
     def in_range(self, val: int) -> bool:
         if self.range is None:
@@ -97,7 +98,7 @@ class DecimalField(DeviceField):
         super().__init__(name, address, 1)
 
     def parse(self, data: bytes) -> Decimal:
-        val = Decimal(struct.unpack('!H', data)[0])
+        val = Decimal(struct.unpack('!h', data)[0])
         return val / 10 ** self.scale + self.offset
 
     def in_range(self, val: Decimal) -> bool:
@@ -115,7 +116,8 @@ class Decimal32Field(DeviceField):
         super().__init__(name, address, 2)
 
     def parse(self, data: bytes) -> Decimal:
-        val = data[2] << 24 | data[3] << 16 | data[0] << 8 | data[1]
+        lo, hi = struct.unpack('!Hh', data)
+        val = lo + (hi << 16)
         return val / 10 ** self.scale + self.offset
 
     def in_range(self, val: Decimal) -> bool:
