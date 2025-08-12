@@ -97,7 +97,9 @@ def is_device_using_encryption(manufacturer_data):
     )
 
 
-## Crypto helpers - Most of those are specific to what Bluetti is doing
+#
+# Crypto helpers - Most of those are specific to what Bluetti is doing
+#
 
 
 def aes_decrypt(data, aes_key, iv):
@@ -256,7 +258,9 @@ def verify_and_extract_signed_data(message, signed_data_suffix):
     return data
 
 
-## Protocol
+#
+# Protocol
+#
 
 
 class MessageType(Enum):
@@ -302,7 +306,7 @@ class Message:
 
     @property
     def body(self) -> memoryview:
-        return self.view[len(self.header) : -len(self.checksum)]
+        return self.view[len(self.header):-len(self.checksum)]
 
     @property
     def data(self) -> memoryview:
@@ -483,7 +487,9 @@ class EncryptedConnection(Connection):
         self.ready_event.set()
 
 
-## The encapsulated messages look like this, check out other bluetti libraries for parsing
+#
+# The encapsulated messages look like this, check out other bluetti libraries for parsing
+#
 
 # 01 ?? ?? ?? ........ ?? ??
 # |  |  |     |        |---> Modbus CRC16 (2 bytes)

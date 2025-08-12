@@ -25,6 +25,7 @@ class DeviceField:
     def in_range(self, val: Any) -> bool:
         return True
 
+
 class Uint8Field(DeviceField):
     def __init__(self, name: str, address: int, range: Optional[Tuple[int, int]], offset: int = 0):
         self.range = range
@@ -39,6 +40,7 @@ class Uint8Field(DeviceField):
             return True
         else:
             return val >= self.range[0] and val <= self.range[1]
+
 
 # uint16
 class UintField(DeviceField):
@@ -56,6 +58,7 @@ class UintField(DeviceField):
         else:
             return val >= self.range[0] and val <= self.range[1]
 
+
 class Uint32Field(DeviceField):
     def __init__(self, name: str, address: int, range: Optional[Tuple[int, int]], offset: int = 0):
         self.range = range
@@ -71,6 +74,7 @@ class Uint32Field(DeviceField):
             return True
         else:
             return val >= self.range[0] and val <= self.range[1]
+
 
 class BoolField(DeviceField):
     def __init__(self, name: str, address: int):
@@ -91,7 +95,8 @@ class EnumField(DeviceField):
 
 
 class DecimalField(DeviceField):
-    def __init__(self, name: str, address: int, scale: int, range: Optional[Tuple[int, int]], offset: Decimal | int = 0):
+    def __init__(self, name: str, address: int, scale: int, range: Optional[Tuple[int, int]],
+                 offset: Decimal | int = 0):
         self.scale = scale
         self.range = range
         self.offset = offset
@@ -109,7 +114,8 @@ class DecimalField(DeviceField):
 
 
 class Decimal32Field(DeviceField):
-    def __init__(self, name: str, address: int, scale: int, range: Optional[Tuple[int, int]], offset: Decimal | int = 0):
+    def __init__(self, name: str, address: int, scale: int, range: Optional[Tuple[int, int]],
+                 offset: Decimal | int = 0):
         self.scale = scale
         self.range = range
         self.offset = offset
@@ -125,6 +131,7 @@ class Decimal32Field(DeviceField):
             return True
         else:
             return val >= self.range[0] and val <= self.range[1]
+
 
 class DecimalArrayField(DeviceField):
     def __init__(self, name: str, address: int, size: int, scale: int):
@@ -188,10 +195,12 @@ class DeviceStruct:
     def add_enum_field(self, name: str, address: int, enum: Type[Enum]):
         self.fields.append(EnumField(name, address, enum))
 
-    def add_decimal_field(self, name: str, address: int, scale: int, range: Tuple[int, int] = None, offset: Decimal | int = 0):
+    def add_decimal_field(self, name: str, address: int, scale: int, range: Tuple[int, int] = None,
+                          offset: Decimal | int = 0):
         self.fields.append(DecimalField(name, address, scale, range, offset))
 
-    def add_decimal32_field(self, name: str, address: int, scale: int, range: Tuple[int, int] = None, offset: Decimal | int = 0):
+    def add_decimal32_field(self, name: str, address: int, scale: int, range: Tuple[int, int] = None,
+                            offset: Decimal | int = 0):
         self.fields.append(Decimal32Field(name, address, scale, range, offset))
 
     def add_decimal_array_field(self, name: str, address: int, size: int, scale: int):
