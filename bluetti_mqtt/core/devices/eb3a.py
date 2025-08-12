@@ -36,6 +36,9 @@ class EB3A(BluettiDevice):
         self.struct.add_uint_field('ac_output_power', 38)
         self.struct.add_uint_field('dc_output_power', 39)
         self.struct.add_uint_field('total_battery_percent', 43)
+        self.struct.add_bool_field('ac_input_present', 45)
+        self.struct.add_bool_field('dc_charger_active', 46)
+        self.struct.add_bool_field('ac_bypass_active', 47)
         self.struct.add_bool_field('ac_output_on', 48)
         self.struct.add_bool_field('dc_output_on', 49)
 
